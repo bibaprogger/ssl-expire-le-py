@@ -3,6 +3,7 @@ import os
 import OpenSSL
 import datetime
 import requests
+from config import TOKEN, CHAT_ID, THREAD_ID
 
 
 LE_CERTS_PATH = '/etc/letsencrypt/live/'
@@ -32,10 +33,8 @@ def cert_days_left(domain: str) -> int:
 
 
 def telegram_send_alert(domain: str, days_left: int) -> None:
-    TOKEN = 'token'
-    CHAT_ID = '-00000000'
     message = f'ATTENTION! SSL for domain {domain} expire after {days_left} days'
-    url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}'
+    url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&message_thread_id={THREAD_ID}&text={message}'
     requests.get(url)
 
 
